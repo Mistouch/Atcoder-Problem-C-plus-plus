@@ -1,0 +1,109 @@
+// ----------------------------------------SHAHRIA SARKER SHUVO -----------------------------------------
+//-------------------------------------CSE North South University----------------------------------------
+#include<bits/stdc++.h>
+using namespace std;
+
+#define fastkor ios_base::sync_with_stdio(false),cin.tie(0),cout.tie(0)
+#define endl '\n'
+#define ll long long
+
+#define dvect vector<int>vect
+#define pb(x) push_back(x)
+#define vectinL(n) for(ll i=0;i<n;i++){ ll x; cin >> x; vect.push_back(x);}
+#define vectin(n) for(int i=0;i<n;i++){ int x; cin >> x; vect.push_back(x);}
+#define vectout(v) for(auto p: v) cout<<p<<" "; cout<<endl;
+#define sortkor(x) sort(x.begin(),x.end())
+#define reversekor(x) reverse(x.begin(),x.end())
+#define all(vect) vect.begin(),vect.end()
+#define mini_pos(a)    ( min_element((a).begin(), (a).end()) - (a).begin())
+#define maxi_pos(a)    ( max_element((a).begin(), (a).end()) - (a).begin())
+
+#define F first
+#define S second
+#define gcd(a,b) __gcd(a,b)
+#define YES1 cout<<"Case "<<case++<<": YES\n"
+#define NO1 cout<<"Case "<<case++<<": NO\n"
+#define precision(n) fixed<<setprecision(n)
+#define testcase ll t; cin >>t; while(t--)
+
+#define yes cout<<"yes\n";
+#define Yes cout<<Yes\n";
+#define YES cout<<"YES\n";
+
+#define no cout<<"no\n";
+#define No cout<<"No\n";
+#define NO cout<<"NO\n";
+vector<bool>isprime;
+vector<int>primegula;
+void sieve(ll n)
+{
+    isprime.assign(n+1,true);
+    isprime[0]=isprime[1]=false;
+    for(ll i=2; i*i<=n; i++)
+    {
+        if(!isprime[i])
+            continue;
+        for(int j=i*i; j<=n; j+=i)
+            isprime[j]=false;
+
+    }
+    for(ll i=2; i<=n; i++)
+    {
+        if(isprime[i])
+            primegula.pb(i);
+    }
+}
+const int N=10;
+const int dx[4]= {-1,0,1,0};
+const int dy[4]= {0,1,0,-1};
+vector<int>G[N];
+vector<bool>vis(N+1);
+int dp[N+1][N+1];
+vector<pair<int,int>>graph[N+1];
+int dfs(int x)
+{
+
+    vis[x]=true;
+    int ans=0;
+    for(auto v: graph[x])
+    {
+        int child=v.F;
+        int dis=v.S;
+        if(vis[child]!=true)
+            ans=max(ans,dis+dfs(child));
+    }
+    vis[x]=false;
+    return ans;
+}
+void reset()
+{
+    for(int i=0;i<=N;i++)
+        vis[i]=false;
+}
+int main()
+{
+     fastkor;
+
+     int a,b;
+     cin >> a >> b;
+
+
+     for(int i=0;i<b;i++)
+     {
+         int x,y,z;
+         cin >> x >> y >> z;
+         graph[x].push_back({y,z});
+
+         graph[y].push_back({x,z});
+     }
+     int ans=0;
+
+     for(int i=1;i<=N;i++)
+     {
+        // reset();
+         ans=max(ans,dfs(i));
+     }
+     cout<<ans;
+
+
+}
